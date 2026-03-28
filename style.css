@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Evita barra de rolagem na página inteira */
+}
+
+/* ===== VÍDEO DE FUNDO ===== */
+.video-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10; /* Fica atrás de tudo */
+    overflow: hidden;
+}
+
+.video-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cobre toda a tela mantendo a proporção */
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2); /* Sutil escurecimento para contraste */
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.main-content-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invitation-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.card-wrapper {
+    perspective: 1200px;
+    height: 420px;
+    position: relative;
+    cursor: pointer;
+}
+
+/* ===== CARTÃO EXTERNO (FECHADO) ===== */
+.card-external {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Sombra mais forte para destacar do vídeo */
+    transition: all 0.5s ease;
+    z-index: 10;
+}
+
+.envelope-top {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50%;
+    background: #5a7841; /* Verde Oliva Escuro */
+    border-radius: 12px 12px 0 0;
+    transform-origin: top;
+    transition: transform 0.6s ease;
+    z-index: 5;
+}
+
+.envelope-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background: #6b8e4e; /* Verde Oliva Claro */
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.hint-text {
+    display: block;
+    color: white;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
+}
+
+/* ===== O SELO DOURADO (MODIFICAÇÃO CHAVE) ===== */
+.golden-seal {
+    position: absolute;
+    top: 50%; /* No centro vertical */
+    left: 50%; /* No centro horizontal */
+    transform: translate(-50%, -50%); /* Centraliza perfeitamente o elemento */
+    width: 120px; /* Ajuste o tamanho da logo */
+    height: auto;
+    /* Sombra projetada para dar profundidade e fazê-lo sobressair */
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+    z-index: 99; /* Z-index mais alto para ficar SOBRE TUDO */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ===== PAPEL INTERNO (REVELADO AO ABRIR) ===== */
+.paper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    background: #fafaf8;
+    padding: 35px 20px;
+    border-radius: 8px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1; /* Fica atrás do cartão externo */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.btn-close-x {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 30px;
+    color: #bbb;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.paper-title { color: #6b8e4e; font-size: 22px; margin-bottom: 10px; }
+.paper-subtitle { font-size: 12px; color: #888; text-transform: uppercase; margin-bottom: 15px; }
+.paper-text { font-size: 14px; color: #444; line-height: 1.6; margin-bottom: 25px; }
+
+.btn-confirm {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #6b8e4e;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-confirm:hover { background: #5a7841; transform: translateY(-2px); }
+
+/* ===== ESTADO ABERTO (.opened) ===== */
+.invitation-container.opened .envelope-top {
+    transform: rotateX(160deg); /* Tampa gira para cima */
+    z-index: 0; /* Fica atrás de tudo */
+}
+
+/* O selo desaparece sutilmente */
+.invitation-container.opened .golden-seal {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.8); /* Encolhe um pouco ao desaparecer */
+}
+
+.invitation-container.opened .paper {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1); /* Papel interno aparece */
+    z-index: 20; /* Fica à frente do cartão externo */
+}
+
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
