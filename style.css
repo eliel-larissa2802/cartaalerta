@@ -5,81 +5,77 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Evita barra de rolagem na página inteira */
+    overflow: hidden;
+    background: #000;
 }
 
 /* ===== VÍDEO DE FUNDO ===== */
 .video-background-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -10; /* Fica atrás de tudo */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -10;
     overflow: hidden;
 }
 
 .video-background {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cobre toda a tela mantendo a proporção */
+    object-fit: cover;
 }
 
 .video-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2); /* Sutil escurecimento para contraste */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(60, 75, 50, 0.48); /* Verde oliva suave */
 }
 
-/* ===== CONTEÚDO PRINCIPAL ===== */
+/* ===== CONTAINER PRINCIPAL ===== */
 .main-content-container {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    max-width: 420px;
+    padding: 20px;
+    perspective: 1500px;
 }
 
 .invitation-container {
     width: 100%;
-    max-width: 400px;
-    padding: 20px;
-}
-
-.card-wrapper {
-    perspective: 1200px;
-    height: 420px;
-    position: relative;
     cursor: pointer;
 }
 
-/* ===== CARTÃO EXTERNO (FECHADO) ===== */
+/* ===== CARTÃO EXTERNO (ENVELOPE) ===== */
+.card-wrapper {
+    position: relative;
+    height: 460px;
+    perspective: 1500px;
+}
+
 .card-external {
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Sombra mais forte para destacar do vídeo */
-    transition: all 0.5s ease;
-    z-index: 10;
+    border-radius: 18px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+    background: linear-gradient(135deg, #4a5f38, #5f7a4a);
 }
 
 .envelope-top {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 50%;
-    background: #5a7841; /* Verde Oliva Escuro */
-    border-radius: 12px 12px 0 0;
+    height: 52%;
+    background: linear-gradient(to bottom, #5a7841, #4a5f38);
+    border-radius: 18px 18px 0 0;
     transform-origin: top;
-    transition: transform 0.6s ease;
+    transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 5;
 }
 
@@ -87,9 +83,9 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50%;
-    background: #6b8e4e; /* Verde Oliva Claro */
-    border-radius: 0 0 12px 12px;
+    height: 52%;
+    background: linear-gradient(to top, #6b8e4e, #5a7841);
+    border-radius: 0 0 18px 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,92 +93,154 @@ body {
 }
 
 .hint-text {
-    display: block;
-    color: white;
-    font-size: 11px;
+    color: rgba(255,255,255,0.95);
+    font-size: 11.5px;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    animation: pulse 2s infinite;
+    letter-spacing: 3px;
+    animation: pulse 2.2s infinite;
 }
 
-/* ===== O SELO DOURADO (MODIFICAÇÃO CHAVE) ===== */
+/* ===== SELO DOURADO ===== */
 .golden-seal {
     position: absolute;
-    top: 50%; /* No centro vertical */
-    left: 50%; /* No centro horizontal */
-    transform: translate(-50%, -50%); /* Centraliza perfeitamente o elemento */
-    width: 120px; /* Ajuste o tamanho da logo */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 130px;
     height: auto;
-    /* Sombra projetada para dar profundidade e fazê-lo sobressair */
-    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
-    z-index: 99; /* Z-index mais alto para ficar SOBRE TUDO */
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.45));
+    z-index: 99;
+    transition: all 0.6s ease;
 }
 
-/* ===== PAPEL INTERNO (REVELADO AO ABRIR) ===== */
+/* ===== PAPEL INTERNO ===== */
 .paper {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    width: 90%;
-    background: #fafaf8;
-    padding: 35px 20px;
-    border-radius: 8px;
+    transform: translate(-50%, -50%) scale(0.88);
+    width: 92%;
+    background: #f8f6f0;
+    padding: 42px 28px 38px;
+    border-radius: 12px;
     text-align: center;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 1; /* Fica atrás do cartão externo */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    transition: all 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+    border: 1px solid rgba(180, 150, 100, 0.3);
+}
+
+.paper-inner {
+    position: relative;
 }
 
 .btn-close-x {
     position: absolute;
-    top: 5px;
-    right: 15px;
-    font-size: 30px;
-    color: #bbb;
+    top: -8px;
+    right: -8px;
+    font-size: 38px;
+    color: #8a7d5e;
     text-decoration: none;
     line-height: 1;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
-.paper-title { color: #6b8e4e; font-size: 22px; margin-bottom: 10px; }
-.paper-subtitle { font-size: 12px; color: #888; text-transform: uppercase; margin-bottom: 15px; }
-.paper-text { font-size: 14px; color: #444; line-height: 1.6; margin-bottom: 25px; }
+.btn-close-x:hover {
+    color: #6b5f3f;
+    transform: scale(1.15);
+}
 
+/* Tipografia Premium */
+.paper-title {
+    font-family: 'Playfair Display', serif;
+    color: #4a5f38;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.paper-subtitle {
+    font-size: 13.5px;
+    color: #8a7d5e;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 22px;
+}
+
+.paper-text {
+    font-size: 15.2px;
+    color: #444;
+    line-height: 1.75;
+    margin-bottom: 32px;
+}
+
+.paper-text strong {
+    color: #5a7841;
+}
+
+/* Botão Confirmar */
 .btn-confirm {
     display: inline-block;
-    padding: 12px 20px;
-    background: #6b8e4e;
+    padding: 16px 36px;
+    background: linear-gradient(135deg, #5a7841, #6b8e4e);
     color: white;
     text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 14px;
-    transition: 0.3s;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 20px rgba(90, 120, 65, 0.35);
+    transition: all 0.4s ease;
 }
 
-.btn-confirm:hover { background: #5a7841; transform: translateY(-2px); }
+.btn-confirm:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(90, 120, 65, 0.45);
+}
 
-/* ===== ESTADO ABERTO (.opened) ===== */
+/* ===== ESTADO ABERTO ===== */
 .invitation-container.opened .envelope-top {
-    transform: rotateX(160deg); /* Tampa gira para cima */
-    z-index: 0; /* Fica atrás de tudo */
+    transform: rotateX(165deg);
+    z-index: 2;
 }
 
-/* O selo desaparece sutilmente */
 .invitation-container.opened .golden-seal {
     opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(0.8); /* Encolhe um pouco ao desaparecer */
+    transform: translate(-50%, -50%) scale(0.7) rotate(8deg);
 }
 
 .invitation-container.opened .paper {
     opacity: 1;
     pointer-events: auto;
-    transform: translate(-50%, -50%) scale(1); /* Papel interno aparece */
-    z-index: 20; /* Fica à frente do cartão externo */
+    transform: translate(-50%, -48%) scale(1);
+    z-index: 30;
 }
 
-@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+/* Animação do texto "TOQUE PARA ABRIR" */
+@keyframes pulse {
+    0%, 100% { opacity: 0.65; }
+    50% { opacity: 1; }
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .main-content-container {
+        padding: 15px;
+    }
+    
+    .paper {
+        padding: 38px 24px 34px;
+    }
+    
+    .paper-title {
+        font-size: 24px;
+    }
+}
